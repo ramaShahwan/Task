@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 Route::get('estate/create', [ EstateController::class, 'create' ]);
+Route::get('estate', [ EstateController::class, 'index']);
 Route::post('estate/store', [ EstateController::class, 'store' ])->name('estate.store');
 //Route::resource('estate', EstateController::class);
 //For Image

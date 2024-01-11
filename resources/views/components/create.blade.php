@@ -113,16 +113,6 @@
 	</div>
 	@endif
 	 
-					<!-- row -->
-					<div class="row">
-	
-						
-								
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- row closed -->
 	@endsection
 	<!-- Breadcrumb -->
 	<div class="site-breadcrumb">
@@ -133,7 +123,9 @@
 	</div>
 
 	<!-- Page -->
-	
+	@foreach ($errors->all() as $error)
+	<li>{{ $error }}</li>
+@endforeach
 	
 	<form action={{ Route('estate.store')}} method="POST" enctype="multipart/form-data" autocomplete="off">
 		@csrf
@@ -145,7 +137,23 @@
 			<div class="col-lg-6 col-md-6">
 				<div class="card">
 					<div class="card-body">
-						<div class="row">
+         	<div class="row">
+			<div class="col">
+				<label for="inputName" class="control-label">Contact phone</label>
+				<input type="text" class="form-control" id="inputName" name="Contact_phone"
+					placeholder="Please enter your contact number" required>
+			</div>
+		</div><br>
+
+		<div class="row">
+			<div class="col">
+				<label for="inputName" class="control-label">Address</label>
+				<input type="text" class="form-control" id="inputName" name="Address" 
+				placeholder="Address"required>
+			</div>
+		</div><br>
+
+		<div class="row">
 			<div class="col">
 				<label for="inputName" class="control-label">outlook</label>
 				<input type="text" class="form-control" id="inputName" name="outlook"
@@ -203,6 +211,14 @@
 				placeholder="price" required>
 			</div>
 		</div><br>
+
+		<div class="row">
+			<div class="col">
+			  <label for="exampleTextarea">description</label>
+			  <textarea class="form-control" id="exampleTextarea" name="description" rows="3" placeholder="description"></textarea>
+			</div>
+		  </div><br>
+
             <h3>facilities</h3>
 		<div class="form-check">
 			<input class="form-check-input" type="checkbox" name="parking" value="1" id="flexCheckChecked1" checked="checked" >
@@ -256,7 +272,7 @@
 		</div><br>
 		<div class="row">
 			<div class="col">
-		<input type="file" name="image">
+		<input type="file"  multiple="multiple" name="image_name[]">
 		{{-- <button type="submit" class="btn" style=" background-color:#30caa0; color:white">Upload</button> --}}
 				</div>
 			</div>
@@ -276,22 +292,28 @@
 						<div class="sale-notic">FOR SALE</div>
 					</div>
 				</div>
+				<br>
 				<div class="rp-item">
 					<div class="rp-pic set-bg" data-setbg="{{asset('img/feature/2.jpg')}}">
 						<div class="rent-notic">FOR SALE</div>
 					</div>
 				</div>
+                <br>
+				<div class="rp-item">
+					<div class="rp-pic set-bg" data-setbg="{{asset('img/feature/3.jpg')}}">
+						<div class="sale-notic">FOR SALE</div>
+					</div>
+                 <br>
 				<div class="rp-item">
 					<div class="rp-pic set-bg" data-setbg="{{asset('img/feature/4.jpg')}}">
 						<div class="sale-notic">FOR SALE</div>
 					</div>
 				</div>
+				<br>
 				<div class="rp-item">
 					<div class="rp-pic set-bg" data-setbg="{{asset('img/feature/5.jpg')}}">
 						<div class="rent-notic">FOR SALE</div>
 					</div>
-					
-					
 				</div>
 			</div>
 		

@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('estates', function (Blueprint $table) {
             $table->id();
+           
+            $table->string('Address')->nullable();
+            $table->string('Contact_phone')->nullable();
             $table->string('outlook')->nullable();
+            $table->string('description')->nullable();
             $table->string('direction')->nullable();
             $table->string('floor')->nullable();
             $table->string('ownership')->nullable();

@@ -95,8 +95,18 @@
 		<div class="container">
 			<a href=""><i class="fa fa-home"></i>Home</a>
 			<span><i class="fa fa-angle-right"></i>FOR SALE</span>
+			
+		    <a href="#" class="price-btn" style="margin-right:70px border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
+			<a href="#" class="price-btn" style="margin-left:70px border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Delete All</a>
 		</div>
 	</div>
+	{{-- <div class="col-xl-4">
+		<a href="#" class="price-btn">Add new</a>
+	</div>
+
+	<div class="col-xl-4">
+		<a href="#" class="price-btn">Delete All</a>
+	</div> --}}
 
 	<!-- Page -->
 	<section class="page-section">
@@ -176,117 +186,9 @@
 								<p><i class="fa fa-check-circle-o"></i> Electric Range</p>
 							</div>
 						</div>
-						<h3 class="sl-sp-title bd-no">Floorplans</h3>
-						<div id="accordion" class="plan-accordion">
-							<div class="panel">
-								<div class="panel-header" id="headingOne">
-									<button class="panel-link active" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">First Floor: <span>660 sq ft</span>	<i class="fa fa-angle-down"></i></button>
-								</div>
-								<div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-									<div class="panel-body">
-										<img src="{{asset('img/plan-sketch.jpg')}}" alt="">
-									</div>
-								</div>
-							</div>
-							<div class="panel">
-								<div class="panel-header" id="headingTwo">
-									<button class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">Second Floor:<span>610 sq ft.</span>	<i class="fa fa-angle-down"></i>
-									</button>
-								</div>
-								<div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-									<div class="panel-body">
-										<img src="{{asset('img/plan-sketch.jpg')}}" alt="">
-									</div>
-								</div>
-							</div>
-							<div class="panel">
-								<div class="panel-header" id="headingThree">
-									<button class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">Third Floor :<span>580 sq ft</span>	<i class="fa fa-angle-down"></i>
-									</button>
-								</div>
-								<div id="collapse3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-									<div class="panel-body">
-										<img src="img/plan-sketch.jpg" alt="">
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<h3 class="sl-sp-title bd-no">Video</h3>
-						<div class="perview-video">
-							<img src="{{asset('img/video.jpg')}}" alt="">
-							<a href="https://www.youtube.com/watch?v=v13nSVp6m5I" class="video-link"><img src="img/video-btn.png" alt=""></a>
-						</div>
-						<h3 class="sl-sp-title bd-no">Location</h3>
-						<div class="pos-map" id="map-canvas"></div>
-					</div>
-				</div>
+					
 				<!-- sidebar -->
-				<div class="col-lg-4 col-md-7 sidebar">
-					<div class="author-card">
-						<div class="author-img set-bg" data-setbg="{{asset('img/author.jpg')}}"></div>
-						<div class="author-info">
-							<h5>Gina Wesley</h5>
-							<p>Real Estate Agent</p>
-						</div>
-						<div class="author-contact">
-							<p><i class="fa fa-phone"></i>(567) 666 121 2233</p>
-							<p><i class="fa fa-envelope"></i>ginawesley26@gmail.com</p>
-						</div>
-					</div>
-					<div class="contact-form-card">
-						<h5>Do you have any question?</h5>
-						<form>
-							<input type="text" placeholder="Your name">
-							<input type="text" placeholder="Your email">
-							<textarea placeholder="Your question"></textarea>
-							<button>SEND</button>
-						</form>
-					</div>
-					<div class="related-properties">
-						<h2>Related Property</h2>
-						<div class="rp-item">
-							<div class="rp-pic set-bg" data-setbg="{{asset('img/feature/1.jpg')}}">
-								<div class="sale-notic">FOR SALE</div>
-							</div>
-							<div class="rp-info">
-								<h5>1963 S Crescent Heights Blvd</h5>
-								<p><i class="fa fa-map-marker"></i>Los Angeles, CA 90034</p>
-							</div>
-							<a href="#" class="rp-price">$1,200,000</a>
-						</div>
-						<div class="rp-item">
-							<div class="rp-pic set-bg" data-setbg="{{asset('img/feature/2.jpg')}}">
-								<div class="rent-notic">FOR Rent</div>
-							</div>
-							<div class="rp-info">
-								<h5>17 Sturges Road, Wokingham</h5>
-								<p><i class="fa fa-map-marker"></i> Newtown, CT 06470</p>
-							</div>
-							<a href="#" class="rp-price">$2,500/month</a>
-						</div>
-						<div class="rp-item">
-							<div class="rp-pic set-bg" data-setbg="{{asset('img/feature/4.jpg')}}">
-								<div class="sale-notic">FOR SALE</div>
-							</div>
-							<div class="rp-info">
-								<h5>28 Quaker Ridge Road, Manhasset</h5>
-								<p><i class="fa fa-map-marker"></i>28 Quaker Ridge Road, Manhasset</p>
-							</div>
-							<a href="#" class="rp-price">$5,600,000</a>
-						</div>
-						<div class="rp-item">
-							<div class="rp-pic set-bg" data-setbg="{{asset('img/feature/5.jpg')}}">
-								<div class="rent-notic">FOR Rent</div>
-							</div>
-							<div class="rp-info">
-								<h5>Sofi Berryessa 750 N King Road</h5>
-								<p><i class="fa fa-map-marker"></i>Sofi Berryessa 750 N King Road</p>
-							</div>
-							<a href="#" class="rp-price">$1,600/month</a>
-						</div>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	</section>
