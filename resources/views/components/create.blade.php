@@ -207,8 +207,9 @@
 		<div class="row">
 			<div class="col">
 				<label for="inputName" class="control-label">price</label>
-				<input type="text" class="form-control" id="inputName" name="price" 
-				placeholder="price" required>
+				<input type="text" class="form-control" id="inputName" name="price in $" 
+				placeholder="price" required >
+				
 			</div>
 		</div><br>
 
@@ -285,6 +286,7 @@
 			</div>
 		</div>
 <br><br>
+
 		<div class="col-lg-5 single-list-page">
 			<div class="related-properties">
 				<div class="rp-item">
@@ -315,14 +317,15 @@
 						<div class="rent-notic">FOR SALE</div>
 					</div>
 				</div>
+				<br><br>
 			</div>
 		
 		
 		
 		</div>
 	
-
 		</div>
+		
 	</form>
 	<br><br>
 	<!-- Page end -->

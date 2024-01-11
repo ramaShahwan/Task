@@ -90,14 +90,15 @@
 	</section>
 	<!--  Page top end -->
 
+
 	<!-- Breadcrumb -->
 	<div class="site-breadcrumb">
 		<div class="container">
 			<a href=""><i class="fa fa-home"></i>Home</a>
 			<span><i class="fa fa-angle-right"></i>FOR SALE</span>
-			
-		    <a href="#" class="price-btn" style="margin-right:70px border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
-			<a href="#" class="price-btn" style="margin-left:70px border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Delete All</a>
+			<span></span>
+		    <a href="{{ route('estate.create') }}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
+			<a href="#" class="right-btn" style="float: right; margin-right:5px;border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Delete All</a>
 		</div>
 	</div>
 	{{-- <div class="col-xl-4">
@@ -109,10 +110,14 @@
 	</div> --}}
 
 	<!-- Page -->
+
 	<section class="page-section">
+		@foreach ( $estate as $es )
+			
+		
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-8 single-list-page">
+				<div class="col-lg-12 single-list-page">
 					<div class="single-list-slider owl-carousel" id="sl-slider">
 						<div class="sl-item set-bg" data-setbg="{{asset('img/single-list-slider/1.jpg')}}">
 							<div class="sale-notic">FOR SALE</div>
@@ -140,57 +145,73 @@
 					<div class="single-list-content">
 						<div class="row">
 							<div class="col-xl-8 sl-title">
-								<h2>305 North Palm Drive</h2>
-								<p><i class="fa fa-map-marker"></i>Beverly Hills, CA 90210</p>
+								<p><i class="fa fa-map-marker"></i>{{ $es->Address }}</p>
 							</div>
 							<div class="col-xl-4">
-								<a href="#" class="price-btn">$4,500,000</a>
+								<a href="#" class="price-btn">{{ $es->price }}
+									<i class="fa fa-usd"></i>
+								</a>
 							</div>
 						</div>
 						<h3 class="sl-sp-title">Property Details</h3>
 						<div class="row property-details-list">
 							<div class="col-md-4 col-sm-6">
-								<p><i class="fa fa-th-large"></i> 1500 Square foot</p>
-								<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-								<p><i class="fa fa-user"></i> Gina Wesley</p>
+								<p><i class="fa fa-th-large"></i> {{ $es->direction }}</p>
+								<p><i class="fa fa-bed"></i> {{ $es->room_number }} room</p>
+								<p><i class="fa fa-user"></i> {{ $es->Contact_phone }}</p>
 							</div>
 							<div class="col-md-4 col-sm-6">
-								<p><i class="fa fa-car"></i> 2 Garages</p>
-								<p><i class="fa fa-building-o"></i> Family Villa</p>
-								<p><i class="fa fa-clock-o"></i> 1 days ago</p>
+								<p><i class="fa fa-stair"></i> {{ $es->floor }} floor</p>
+								<p><i class="fa fa-building-o"></i>  {{ $es->outlook }}</p>
+								<p><i class="fa fa-clock-o"></i>  {{ $es->created_at->day}}/{{$es->created_at->month}}/{{  $es->created_at->year}} </p>
 							</div>
 							<div class="col-md-4">
-								<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-								<p><i class="fa fa-trophy"></i> 5 years age</p>
+								<p><i class="fa fa-bath"></i>   {{ $es->bath_number }} bathroom</p>
+								<p><i class="fa fa-trophy"></i>  {{ $es->ownership }}</p>
+							
 							</div>
 						</div>
 						<h3 class="sl-sp-title">Description</h3>
 						<div class="description">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus egestas fermentum ornareste. Donec index lorem. Vestibulum  aliquet odio, eget tempor libero. Cras congue cursus tincidunt. Nullam venenatis dui id orci egestas tincidunt id elit. Nullam ut vuputate justo. Integer lacnia pharetra pretium. Casan ante ipsum primis in faucibus orci luctus et ultrice.</p>
+							<p> {{ $es->description }}</p>
 							</div>
-						<h3 class="sl-sp-title">Property Details</h3>
+						<h3 class="sl-sp-title">facilities</h3>
 						<div class="row property-details-list">
 							<div class="col-md-4 col-sm-6">
-								<p><i class="fa fa-check-circle-o"></i> Air conditioning</p>
-								<p><i class="fa fa-check-circle-o"></i> Telephone</p>
-								<p><i class="fa fa-check-circle-o"></i> Laundry Room</p>
+									
+								@if($es->parking ==1)
+								 <p><i class="fa fa-check-circle-o"></i> parking </p> 
+								 @endif
+								 @if($es->place_for_barbecue ==1)
+								 <p><i class="fa fa-check-circle-o"></i> place_for_barbecue</p> 
+								 @endif
+								 @if($es->left ==1)
+								 <p><i class="fa fa-check-circle-o"></i> left </p> 
+								 @endif
+								 @if($es->TV_cable ==1)
+								 <p><i class="fa fa-check-circle-o"></i> TV_cable </p> 
+								 @endif
+								 @if($es->internet ==1)
+								 <p><i class="fa fa-check-circle-o"></i> internet </p> 
+								 @endif
+								 @if($es->central_heating ==1)
+								 <p><i class="fa fa-check-circle-o"></i> central_heating </p> 
+								 @endif
+
+								
 							</div>
-							<div class="col-md-4 col-sm-6">
-								<p><i class="fa fa-check-circle-o"></i> Central Heating</p>
-								<p><i class="fa fa-check-circle-o"></i> Family Villa</p>
-								<p><i class="fa fa-check-circle-o"></i> Metro Central</p>
-							</div>
-							<div class="col-md-4">
+							{{-- <div class="col-md-4">
 								<p><i class="fa fa-check-circle-o"></i> City views</p>
 								<p><i class="fa fa-check-circle-o"></i> Internet</p>
 								<p><i class="fa fa-check-circle-o"></i> Electric Range</p>
-							</div>
+							</div> --}}
 						</div>
 					
 				<!-- sidebar -->
 				
 			</div>
 		</div>
+		@endforeach
 	</section>
 	<!-- Page end -->
 

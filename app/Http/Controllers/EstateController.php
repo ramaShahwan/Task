@@ -15,7 +15,9 @@ class EstateController extends Controller
      */
     public function index()
     {
-     return view('components.index');
+        $estate = Estate::all();
+      
+     return view('components.index',compact('estate'));
     }
 
     /**
