@@ -125,7 +125,7 @@
 	<!-- Page -->
 	@foreach ($errors->all() as $error)
 	<li>{{ $error }}</li>
-@endforeach
+      @endforeach
 	
 	<form action={{ Route('estate.store')}} method="POST" enctype="multipart/form-data" autocomplete="off">
 		@csrf
@@ -324,33 +324,11 @@
 		</div>
 		
 	</form>
-	
+
 	<!-- Page end -->
 
+
 	
-	<!-- Clients section -->
-	<div class="clients-section">
-		<div class="container">
-			<div class="clients-slider owl-carousel">
-				<a href="#">
-					<img src="{{asset('img/partner/1.png')}}" alt="">
-				</a>
-				<a href="#">
-					<img src="{{asset('img/partner/2.png')}}" alt="">
-				</a>
-				<a href="#">
-					<img src="{{asset('img/partner/3.png')}}" alt="">
-				</a>
-				<a href="#">
-					<img src="{{asset('img/partner/4.png')}}" alt="">
-				</a>
-				<a href="#">
-					<img src="{{asset('img/partner/5.png')}}" alt="">
-				</a>
-			</div>
-		</div>
-	</div>
-	<!-- Clients section end -->
 
 
 	<!-- Footer section -->

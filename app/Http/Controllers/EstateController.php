@@ -119,12 +119,11 @@ class EstateController extends Controller
 // {
 //     $image = new Estate;
 //     $image->images=$img;
-//     $image->
 //     $image->save();
 // }
 
 
-
+//for images from another table(one to many)
 // if($request->hasfile('image_name'))
 // {
 //    foreach($request->file('image_name') as $image)
@@ -157,7 +156,8 @@ class EstateController extends Controller
      */
     public function edit(string $id)
     {
-        //
+       $es = Estate::findOrFail($id);
+       return view('estate.edit',compact('es'));
     }
 
     /**
@@ -165,7 +165,28 @@ class EstateController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+       $es = Estate::finndOrFail($id);
+       $es->update([
+        'Address'=>$request->Address,
+        'Contact_phone'=>$request->Contact_phone,
+        'outlook' => $request->outlook,
+        'direction' => $request->direction,
+        'floor' => $request->floor,
+        'ownership' => $request->ownership,
+        'room_number' => $request->room_number,
+        'bath_number' => $request->bath_number,
+        'description'=>$request->description,
+        'price' => $request->price,
+        'parking' => $request->parking == '1' ? 1 : 0,
+        'place_for_barbecue' => $request->place_for_barbecue == '1' ? 1 : 0,
+        'left' => $request->left == '1' ? 1 : 0,
+        'TV_cable' => $request->TV_cable == '1' ? 1 : 0,
+        'internet' => $request->internet == '1' ? 1 : 0,
+        'central_heating' => $request->central_heating == '1' ? 1 : 0,
+        'images'=>$request->images,
+       'slug' => Str::slug( $request->slug)
+       ]);
+       return redirect()->route('estate');
     }
 
     /**
@@ -173,10 +194,7 @@ class EstateController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $es = Estate::findOrFail($id)->delete();
     }
-    public function returnImages(string $id)
-    {
-        $estate = Estate::find($id)->images;
-    }
+   
 }

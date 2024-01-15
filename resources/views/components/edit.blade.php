@@ -14,7 +14,7 @@
 	<!-- Google Fonts -->
 	<link href="{{asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro')}}" rel="stylesheet">
 
-    
+
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
 	<link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}"/>
@@ -96,7 +96,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto"> for sale</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ add your partment</span>
+							<h4 class="content-title mb-0 my-auto"> for sale</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ edit your partment</span>
 						</div>
 					</div>
 				</div>
@@ -104,9 +104,9 @@
 	<!--  Page top end -->
 	@section('content')
 
-	@if (session()->has('Add'))
+	@if (session()->has('edit'))
 	<div class="alert alert-success alert-dismissible fade show" role="alert">
-		<strong>{{ session()->get('Add') }}</strong>
+		<strong>{{ session()->get('edit') }}</strong>
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -120,7 +120,7 @@
 							<div class="card">
 								<div class="card-body">
 				
-									<form action={{ url('estate/create') }} method="post" enctype="multipart/form-data" autocomplete="off">
+									<form action={{ url('update/edit') }} method="post" enctype="multipart/form-data" autocomplete="off">
 										@csrf
 				
 										<div class="row">
