@@ -132,8 +132,6 @@
 		@method('POST')
 		<div class="row">
 
-
-		
 			<div class="col-lg-6 col-md-6">
 				<div class="card">
 					<div class="card-body">
@@ -207,8 +205,8 @@
 		<div class="row">
 			<div class="col">
 				<label for="inputName" class="control-label">price</label>
-				<input type="text" class="form-control" id="inputName" name="price in $" 
-				placeholder="price" required >
+				<input type="text" class="form-control" id="inputName" name="price" 
+				placeholder="price in $" required >
 				
 			</div>
 		</div><br>
@@ -272,21 +270,20 @@
 			</div>
 		</div><br>
 		<div class="row">
-			<div class="col">
-		<input type="file"  multiple="multiple" name="image_name[]">
-		{{-- <button type="submit" class="btn" style=" background-color:#30caa0; color:white">Upload</button> --}}
-				</div>
+				<label for="images" class= "form-label">Images </label>
+		<input class="form-control" type="file"  multiple accept="images/*" name="images[]" id="images">
+	<div aria-describedby="imagesHelp" class="form-text">Select Multiple Images for your house.</div>
+	<div class="gallery" id="gallery">
 			</div>
-			<br><br>
 		</div>
 				</div>
-				<br><br>
 			<div class="d-flex justify-content-center">
 				<button type="submit" class="btn" style="padding-left: 50px; padding-right: 50px; background-color:#30caa0; color:white" >Add</button>
 			</div>
+			<br>
 		</div>
-<br><br>
-
+			</div>
+			<br>
 		<div class="col-lg-5 single-list-page">
 			<div class="related-properties">
 				<div class="rp-item">
@@ -327,7 +324,7 @@
 		</div>
 		
 	</form>
-	<br><br>
+	
 	<!-- Page end -->
 
 	

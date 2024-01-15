@@ -24,12 +24,13 @@ return new class extends Migration
             $table->integer('room_number')->nullable();
             $table->integer('bath_number')->nullable();
             $table->double('price')->nullable();
-           $table->boolean('parking')->default(0)->nullable;
+            $table->boolean('parking')->default(0)->nullable;
             $table->boolean('place_for_barbecue')->default(0)->nullable;
             $table->boolean('left')->default(0)->nullable;
             $table->boolean('TV_cable')->default(0)->nullable;
             $table->boolean('internet')->default(0)->nullable;
             $table->boolean('central_heating')->default(0)->nullable;
+            $table->string('images')->nullable();
             $table->string('slug')->default(0)->nullable;
             $table->timestamps();
         });

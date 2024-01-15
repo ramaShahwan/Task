@@ -1,22 +1,52 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Estate;
-use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Filesystem\FilesystemAdapter;
+use File;
+use Illuminate\Filesystem\FilesystemManager;
+use League\Flysystem\Filesystem;
+use Illuminate\Support\Str;
+ 
+
 
 class EstateController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function uploadMultiple(Request $request): array
+     {
+         $files = $request->file('images');
+         $arrayOfImages = array();
+     
+         for ($i = 0; $i < count($files); $i++) {
+             $filename = $request->get('slug') . $i . '.' . $files[$i]->getClientOriginalExtension();
+     
+             Storage::disk('publicDirectory')->putFileAs(
+                 'public/images/',
+                 $files[$i],
+                 $filename
+             );
+     
+             array_push($arrayOfImages, 'public/images/' . $filename);
+         }
+     
+         return $arrayOfImages;
+     }
+
+    //$files[$i]->getClientOriginalName(). '.' . 
     public function index()
-    {
+    { 
+    //     $data= Estate::get('images');
+    //    $img=json_decode( $data);
         $estate = Estate::all();
-      
+       // $imgs = Estate::get('images');
      return view('components.index',compact('estate'));
     }
 
@@ -37,16 +67,23 @@ class EstateController extends Controller
         $validated = $request->validate([
             'Address' => 'required|max:255',
             'Contact_phone' => 'required|max:10|min:7',
-            'outlook' => 'required|max:10',
+            'outlook' => 'required|max:20',
             'direction' => 'required|max:50',
             'floor' => 'required|max:2',
-            'ownership' => 'required|max:10',
+            'ownership' => 'required|max:20',
             'room_number' => 'required|max:2',
             'bath_number' => 'required|max:2',
             'description' => 'required|max:255',
+            'images' =>'required',
             'slug' => 'required|max:255',
         ]);
-     
+
+        $image_array = [];
+        if($request->hasFile('images'))
+        {
+        $image_array = $this->uploadMultiple($request);
+        }
+        $image_paths = implode(',',$image_array);
 
      Estate::create([
     'Address'=>$request->Address,
@@ -65,27 +102,48 @@ class EstateController extends Controller
     'TV_cable' => $request->TV_cable == '1' ? 1 : 0,
     'internet' => $request->internet == '1' ? 1 : 0,
     'central_heating' => $request->central_heating == '1' ? 1 : 0,
-    'slug' => $request->slug,
+    'images'=>$image_paths,
+   'slug' => Str::slug( $request->slug)
 ]);
  
-if($request->hasfile('image_name'))
-{
-   foreach($request->file('image_name') as $image)
-   {
-       $name=$image->getClientOriginalName();
-       $image->move(public_path().'/public/images/', $name);  
-       Image::create([
-                    'estate_id'=>Estate::latest()->first()->id,
-                    'image_name' => $name,
-                    'image_url' =>$image,
-                ]);
-   }
-}
+// $image_array = array();
+// if($request->file('images'))
+// {
+// if(count($request->file('images'))>0)
+//   {
+//     $image_array=$this->uploadMultiple($request);
+//   }
+//  }
+// // return $image_array;
+// foreach($image_array as$img)
+// {
+//     $image = new Estate;
+//     $image->images=$img;
+//     $image->
+//     $image->save();
+// }
+
+
+
+// if($request->hasfile('image_name'))
+// {
+//    foreach($request->file('image_name') as $image)
+//    {
+//        $name=$image->getClientOriginalName();
+//        $image->move(public_path().'/public/images/', $name);  
+//        Image::create([
+//                     'estate_id'=>Estate::latest()->first()->id,
+//                     'image_name' => $name,
+//                     'image_url' =>$image,
+//                 ]);
+//    }
+// }
 
     session()->flash('Add', 'Added successfully.');
     return back(); 
 }
-    
+  
+
     /**
      * Display the specified resource.
      */

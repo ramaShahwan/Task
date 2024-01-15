@@ -101,48 +101,28 @@
 			<a href="#" class="right-btn" style="float: right; margin-right:5px;border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Delete All</a>
 		</div>
 	</div>
-	{{-- <div class="col-xl-4">
-		<a href="#" class="price-btn">Add new</a>
-	</div>
-
-	<div class="col-xl-4">
-		<a href="#" class="price-btn">Delete All</a>
-	</div> --}}
-
+	
 	<!-- Page -->
 
 	<section class="page-section">
-		@foreach ( $estate as $es )
-			
-		
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 single-list-page">
-					<div class="single-list-slider owl-carousel" id="sl-slider">
-						<div class="sl-item set-bg" data-setbg="{{asset('img/single-list-slider/1.jpg')}}">
-							<div class="sale-notic">FOR SALE</div>
-						</div>
-						<div class="sl-item set-bg" data-setbg="{{asset('img/single-list-slider/2.jpg')}}">
-							<div class="rent-notic">FOR Rent</div>
-						</div>
-						<div class="sl-item set-bg" data-setbg="{{asset('img/single-list-slider/3.jpg')}}">
-							<div class="sale-notic">FOR SALE</div>
-						</div>
-						<div class="sl-item set-bg" data-setbg="{{asset('img/single-list-slider/4.jpg')}}">
-							<div class="rent-notic">FOR Rent</div>
-						</div>
-						<div class="sl-item set-bg" data-setbg="{{asset('img/single-list-slider/5.jpg')}}">
-							<div class="sale-notic">FOR SALE</div>
+		@foreach ($estate as $es)
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 single-list-page">
+						@php
+							$imagePaths = explode(',', $es->images); // Split the string into an array
+						@endphp
+	
+						{{-- Slider Container --}}
+						<div class="owl-carousel owl-theme" id="estate-slider-{{ $loop->index }}">
+							@foreach ($imagePaths as $imagePath)
+								<div class="item">
+									<img src="{{ asset(trim($imagePath)) }}" alt="Estate Image">
+								</div>
+							@endforeach
 						</div>
 					</div>
-					<div class="owl-carousel sl-thumb-slider" id="sl-slider-thumb">
-						<div class="sl-thumb set-bg" data-setbg="{{asset('img/single-list-slider/1.jpg')}}"></div>
-						<div class="sl-thumb set-bg" data-setbg="{{asset('img/single-list-slider/2.jpg')}}"></div>
-						<div class="sl-thumb set-bg" data-setbg="{{asset('img/single-list-slider/3.jpg')}}"></div>
-						<div class="sl-thumb set-bg" data-setbg="{{asset('img/single-list-slider/4.jpg')}}"></div>
-						<div class="sl-thumb set-bg" data-setbg="{{asset('img/single-list-slider/5.jpg')}}"></div>
-					</div>
-					<div class="single-list-content">
+					<div class="col-lg-12 single-list-content">
 						<div class="row">
 							<div class="col-xl-8 sl-title">
 								<p><i class="fa fa-map-marker"></i>{{ $es->Address }}</p>
@@ -156,12 +136,12 @@
 						<h3 class="sl-sp-title">Property Details</h3>
 						<div class="row property-details-list">
 							<div class="col-md-4 col-sm-6">
-								<p><i class="fa fa-th-large"></i> {{ $es->direction }}</p>
+								<p><i class="fa fa-home"></i> {{ $es->direction }}</p>
 								<p><i class="fa fa-bed"></i> {{ $es->room_number }} room</p>
 								<p><i class="fa fa-user"></i> {{ $es->Contact_phone }}</p>
 							</div>
 							<div class="col-md-4 col-sm-6">
-								<p><i class="fa fa-stair"></i> {{ $es->floor }} floor</p>
+								<p><i class="fa fa-bars"></i> {{ $es->floor }} floor</p>
 								<p><i class="fa fa-building-o"></i>  {{ $es->outlook }}</p>
 								<p><i class="fa fa-clock-o"></i>  {{ $es->created_at->day}}/{{$es->created_at->month}}/{{  $es->created_at->year}} </p>
 							</div>
@@ -206,17 +186,21 @@
 								<p><i class="fa fa-check-circle-o"></i> Electric Range</p>
 							</div> --}}
 						</div>
-					
-				<!-- sidebar -->
+						
 				
+						<!-- sidebar -->
+					</div>
+				</div>
 			</div>
 		</div>
+	
+	<br><br>
 		@endforeach
 	</section>
 	<!-- Page end -->
 
 
-	<!-- Clients section -->
+	{{-- <!-- Clients section -->
 	<div class="clients-section">
 		<div class="container">
 			<div class="clients-slider owl-carousel">
@@ -238,7 +222,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- Clients section end -->
+	<!-- Clients section end --> --}}
 
 
 	<!-- Footer section -->
@@ -325,7 +309,40 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="{{asset('js/magnific-popup.min.js')}}"></script>
 	<script src="{{asset('js/main.js')}}"></script>
 
-
+{{-- <script>	$(document).ready(function() {
+		$('.owl-carousel').each(function() {
+			$(this).owlCarousel({
+				loop: true,
+				margin: 10,
+				responsive: {
+					0: { items: 1 },
+					600: { items: 2 },
+					1000: { items: 3 }
+				}
+			});
+		});
+	});
+</script> --}}
+<script>
+	$(document).ready(function(){
+	  $(".owl-carousel").owlCarousel({
+		loop: true,
+		margin: 10,
+		nav: true,
+		responsive: {
+		  0: {
+			items: 1
+		  },
+		  600: {
+			items: 3
+		  },
+		  1000: {
+			items: 3
+		  }
+		}
+	  });
+	});
+  </script>
 	<!-- load for map -->
 	<script src="{{asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyB0YyDTa0qqOjIerob2VTIwo_XVMhrruxo')}}"></script>
 	<script src="{{asset('js/map-2.js')}}"></script>
