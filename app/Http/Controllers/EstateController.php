@@ -188,13 +188,20 @@ class EstateController extends Controller
        ]);
        return redirect()->route('estate');
     }
-
+/*
+*/
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $id)
     {
-        $es = Estate::findOrFail($id)->delete();
+       Estate::findOrFail($id)->delete();
+        return redirect()->route('estate');
+    }
+    public function deleteAll()
+    {
+      Estate::clearBootedModels();
+        return redirect()->route('estate');
     }
    
 }

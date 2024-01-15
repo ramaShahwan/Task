@@ -97,14 +97,20 @@
 			<a href=""><i class="fa fa-home"></i>Home</a>
 			<span><i class="fa fa-angle-right"></i>FOR SALE</span>
 			<span></span>
-			@foreach ($estate as $es)
-		    <a href="{{ route('estate.create') }}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
-			<a href="{{ route('estate.edit',$es->id)}}" class="right-btn" style="float: right; margin-right:5px;border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Delete All</a>
+			
+		    <a href="{{route('estate.create')}}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
+			
+			<form action="{{ route('estate.deleteAll') }}" method="Get">
+				
+			     @csrf
+				 @method('DELETE')
+			<button class="right-btn" style="float: right; margin-right:5px;border-radius: 3px; padding:10px; background-color:#30caa0; color:white">delete All</button>
+			</form>
 		</div>
 	</div>
 	
 	<!-- Page -->
-
+	@foreach ($estate as $es)
 	<section class="page-section">
 		
 			<div class="container">
