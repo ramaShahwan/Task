@@ -14,6 +14,7 @@
 	<!-- Google Fonts -->
 	<link href="{{asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro')}}" rel="stylesheet">
 
+    
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
 	<link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}"/>
