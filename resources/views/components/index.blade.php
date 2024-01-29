@@ -98,36 +98,33 @@
 			<span><i class="fa fa-angle-right"></i>FOR SALE</span>
 			<span></span>
 			
-		    <a href="{{route('estate.create')}}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
-			
-			<form action="{{ route('estate.deleteAll') }}" method="Get">
-				
+		   
+			<form action="{{ route('estate.deleteAll') }}" method="Get" class="top-right">
 			     @csrf
 				 @method('DELETE')
-			<button class="right-btn" style="float: right; margin-right:5px;border-radius: 3px; padding:10px; background-color:#30caa0; color:white">delete All</button>
+				 <a href="{{route('estate.create')}}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
+			
+			<button style="float: right; margin-right:5px;border-radius: 3px; border:none ; padding:10px; background-color:#30caa0; color:white">Delete All</button>
 			</form>
 		</div>
 	</div>
 	
 	<!-- Page -->
 	@foreach ($estate as $es)
-	<section class="page-section">
-		
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 single-list-page">
-						@php
-							$imagePaths = explode(',', $es->images); // Split the string into an array
-						@endphp
-	
-						{{-- Slider Container --}}
-						<div class="owl-carousel owl-theme" id="estate-slider-{{ $loop->index }}">
-							@foreach ($imagePaths as $imagePath)
-								<div class="item">
-									<img src="{{ asset(trim($imagePath)) }}" alt="Estate Image">
-								</div>
-							@endforeach
+  <section class="page-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 single-list-page">
+          <div class="image-list">
+            {{-- Slider Container --}}
+            <div class="owl-carousel owl-theme" id="estate-slider">
+              @foreach ($es->images as $img)
+                <div class="item">
+                  <img src="{{ asset('images/' . $img->image_name) }}" alt="Estate Image" class="image-item">
+                </div>
+              @endforeach
 						</div>
+
 					</div>
 					<div class="col-lg-12 single-list-content">
 						<div class="row">
@@ -150,7 +147,7 @@
 							<div class="col-md-4 col-sm-6">
 								<p><i class="fa fa-bars"></i> {{ $es->floor }} floor</p>
 								<p><i class="fa fa-building-o"></i>  {{ $es->outlook }}</p>
-								<p><i class="fa fa-clock-o"></i>  {{ $es->created_at->day}}/{{$es->created_at->month}}/{{  $es->created_at->year}} </p>
+								<p><i class="fa fa-clock-o"></i>  {{ $es->created_at->format('Y-m-d')}}</p>
 							</div>
 							<div class="col-md-4">
 								<p><i class="fa fa-bath"></i>   {{ $es->bath_number }} bathroom</p>
@@ -194,6 +191,14 @@
 							</div> --}}
 						</div>
 						
+						
+			<form action="{{ route('estate.delete', $es->id) }}" method="Get" class="top-right">
+				@csrf
+				@method('DELETE')
+				<a href="{{route('estate.edit', $es->id)}}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Edit</a>
+		   
+		   <button style="float: right; margin-right:5px;border-radius: 3px; border:none ; padding:10px; background-color:#30caa0; color:white">Delete </button>
+		   </form>
 				
 						<!-- sidebar -->
 					</div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<link href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css')}}" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css')}}" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<title>LERAMIZ - Landing Page Template</title>
 	<meta charset="UTF-8">
 	<meta name="description" content="LERAMIZ Landing Page Template">
@@ -23,11 +23,18 @@
 	<link rel="stylesheet" href="{{asset('css/magnific-popup.css')}}"/>
 	<link rel="stylesheet" href="{{asset('css/style.css')}}"/>
 
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 
 	<!--[if lt IE 9]>
 	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+
+{{-- for image --}}
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>                                                                                         
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/min/dropzone.min.js"></script>  --}}
+<!-- Include Fancybox library -->
 
 </head>
 <body>
@@ -85,22 +92,13 @@
 
 
 	<!-- Page top section -->
-	<section class="page-top-section set-bg" data-setbg="img/page-top-bg.jpg">
+	<section class="page-top-section set-bg" data-setbg="{{asset ('img/page-top-bg.jpg')}}">
 		<div class="container text-white">
-			<h2>Home</h2>
+			<h2>Edit your partment</h2>
 		</div>
 	</section>
 
-	@section('page-header')
-				<!-- breadcrumb -->
-				<div class="breadcrumb-header justify-content-between">
-					<div class="my-auto">
-						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto"> for sale</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ edit your partment</span>
-						</div>
-					</div>
-				</div>
-@endsection
+
 	<!--  Page top end -->
 	@section('content')
 
@@ -112,153 +110,206 @@
 		</button>
 	</div>
 	@endif
-	
+	@endsection
+
+	<div class="site-breadcrumb">
+		<div class="container">
+			<a href=""><i class="fa fa-home"></i>Edit</a>
+			<span><i class="fa fa-angle-right"></i>FOR SALE</span>
+		</div>
+	</div>
 					<!-- row -->
 					<div class="row">
 	
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
 								<div class="card-body">
-				
-									<form action={{ url('update/edit') }} method="post" enctype="multipart/form-data" autocomplete="off">
+									
+									<form  action="{{ route('estate.update', $es->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
 										@csrf
+		
+										<div class="row">
+											<div class="col">
+											  <label for="inputName" class="control-label">Contact phone</label>
+											  <input type="hidden" name="Contact_phone" value="{{ $es->outlook }}">
+											  <input type="text" class="form-control" id="inputName" name="Contact_phone"
+											  value="{{ $es->Contact_phone }}" required>
+											</div>
+										  </div><br>
+
+										  <div class="row">
+											<div class="col">
+											  <label for="inputName" class="control-label">Address</label>
+											  <input type="hidden" name="Address" value="{{ $es->outlook }}">
+											  <input type="text" class="form-control" id="inputName" name="Address"
+											  value="{{ $es->Address }}" required>
+											</div>
+										  </div><br>
+
+										  <div class="row">
+											<div class="col">
+											  <label for="inputName" class="control-label">outlook</label>
+											  <input type="hidden" name="outlook" value="{{ $es->outlook }}">
+											  <input type="text" class="form-control" id="inputName" name="outlook"
+											  value="{{ $es->outlook }}" required>
+											</div>
+										  </div><br>
+
+										  
+										  <div class="row">
+											<div class="col">
+											  <label for="inputName" class="control-label">direction</label>
+											  <input type="hidden" name="direction" value="{{ $es->direction }}">
+											  <input type="text" class="form-control" id="inputName" name="direction"
+											  value="{{ $es->direction }}" required>
+											</div>
+										  </div><br>
 				
-										<div class="row">
+										  <div class="row">
 											<div class="col">
-												<label for="inputName" class="control-label">outlook</label>
-												<input type="text" class="form-control" id="inputName" name="outlook"
-													title="please enter your paretment's outlook" required>
+											  <label for="inputName" class="control-label">floor</label>
+											  <input type="hidden" name="floor" value="{{ $es->floor }}">
+											  <input type="text" class="form-control" id="inputName" name="floor"
+											  value="{{ $es->floor }}" required>
 											</div>
-										</div><br>
+										  </div><br>
 				
-										<div class="row">
+										  <div class="row">
 											<div class="col">
-												<label for="inputName" class="control-label">direction</label>
-												<input type="text" class="form-control" id="inputName" name="direction" required>
+											  <label for="inputName" class="control-label">ownership</label>
+											  <input type="hidden" name="ownership" value="{{ $es->ownership }}">
+											  <input type="text" class="form-control" id="inputName" name="ownership"
+											  value="{{ $es->ownership }}" required>
 											</div>
-										</div><br>
-	
-										
-										<div class="row">
+										  </div><br>
+				
+										  <div class="row">
 											<div class="col">
-												<label for="inputName" class="control-label">floor</label>
-												<input type="text" class="form-control" id="inputName" name="floor" required>
+											  <label for="inputName" class="control-label">room number</label>
+											  <input type="hidden" name="room_number" value="{{ $es->room_number }}">
+											  <input type="text" class="form-control" id="inputName" name="room_number"
+											  value="{{ $es->room_number }}" required>
 											</div>
-										</div><br>
-	
-										
-										<div class="row">
+										  </div><br>
+				
+										  <div class="row">
 											<div class="col">
-												<label for="inputName" class="control-label">ownership</label>
-												<input type="text" class="form-control" id="inputName" name="ownership" required>
+											  <label for="inputName" class="control-label">bath number</label>
+											  <input type="hidden" name="bath_number" value="{{ $es->bath_number }}">
+											  <input type="text" class="form-control" id="inputName" name="bath_number"
+											  value="{{ $es->bath_number }}" required>
 											</div>
-										</div><br>
-	
-										
-										<div class="row">
+										  </div><br>
+				
+										  <div class="row">
 											<div class="col">
-												<label for="inputName" class="control-label">room number</label>
-												<input type="text" class="form-control" id="inputName" name="room_number" required>
+											  <label for="inputName" class="control-label">price</label>
+											  <input type="hidden" name="price" value="{{ $es->price }}">
+											  <input type="text" class="form-control" id="inputName" name="price"
+											  value="{{ $es->price }}" required>
 											</div>
-										</div><br>
-	
-										<div class="row">
+										  </div><br>
+
+										  <div class="row">
 											<div class="col">
-												<label for="inputName" class="control-label">bath number</label>
-												<input type="text" class="form-control" id="inputName" name="bath_number" required>
+											  <label for="exampleTextarea">description</label>
+											  <input type="hidden" name="description" value="{{ $es->description }}">
+											  <textarea class="form-control" id="exampleTextarea" name="description" rows="3">
+											  {{ $es->description }}</textarea>
 											</div>
-										</div><br>
+										  </div><br>
 	
-										<div class="row">
-											<div class="col">
-												<label for="inputName" class="control-label">price</label>
-												<input type="text" class="form-control" id="inputName" name="price" required>
-											</div>
-										</div><br>
-	
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+			
+										  <div class="form-check">
+											<input class="form-check-input" type="checkbox" name="parking" value="1" id="flexCheckChecked" {{ $es->parking == 1 ? 'checked' : '' }}>
 											<label class="form-check-label" for="parking">
 												parking
-											</label>
+											 </label>
 										  </div>
 	
 										  <div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+											<input class="form-check-input" type="checkbox" name="place_for_barbecue" value="1" id="flexCheckChecked" {{ $es->place_for_barbecue == 1 ? 'checked' : '' }}>
 											<label class="form-check-label" for="place_for_barbecue">
 												place for barbecue
-											</label>
+											 </label>
 										  </div>
+
+									  <div class="form-check">
+										<input class="form-check-input" type="checkbox" name="left" value="1" id="flexCheckChecked" {{ $es->left == 1 ? 'checked' : '' }}>
+										<label class="form-check-label" for="left">
+											left
+								 		</label>
+									  </div>
 	
+									  <div class="form-check">
+										<input class="form-check-input" type="checkbox" name="TV_cable" value="1" id="flexCheckChecked" {{ $es->TV_cable == 1 ? 'checked' : '' }}>
+										<label class="form-check-label" for="TV_cable">
+											TV cable
+										</label>
+									  </div>
+
+										<div class="form-check">
+										  <input class="form-check-input" type="checkbox" name="internet" value="1" id="flexCheckChecked" {{ $es->internet == 1 ? 'checked' : '' }}>
+										  <label class="form-check-label" for="internet">
+											internet
+										  </label>
+										</div>
+
 										  <div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-											<label class="form-check-label" for="left">
-												left
-											</label>
+										  <input class="form-check-input" type="checkbox" name="central_heating" value="1" id="flexCheckChecked" {{ $es->central_heating == 1 ? 'checked' : '' }}>
+										  <label class="form-check-label" for="central_heating">
+											  central_heating
+										  </label>
 										  </div>
-	
-										  <div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-											<label class="form-check-label" for="TV_cable">
-												TV_cable
-											</label>
-										  </div>
-	
-										  <div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-											<label class="form-check-label" for="internet">
-												internet
-											</label>
-										  </div>
-										 
-										  
-										  <div class="form-check">
-											<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-											<label class="form-check-label" for=" central_heating">
-												central_heating
-											</label>
-										  </div>
-	
-										
+
 										<div class="row">
 											<div class="col">
-												<label for="inputName" class="control-label">slug</label>
-												<input type="text" class="form-control" id="inputName" name="slug" required>
+											  <label for="inputName" class	="control-label">slug</label>
+											  <input type="hidden" name="slug" value="{{ $es->slug }}">
+											  <input type="text" class="form-control" id="inputName" name="slug"
+											  value="{{ $es->slug }}" required>
 											</div>
-										</div><br>
-	
-										{{-- <div class="form-group">
-											<label>التصنيف الأب</label>
-											<select name="parent_id" class="form-control select">
-												
-												<option value="0">لا يوجد</option>
-	
-												@foreach($parents as $parent)
-												<option value="{{$parent->id}}">{{$parent->category_name}}</option>
-												@endforeach 
-	
-											</select>
-										</div> --}}
-				
-				
+										  </div><br>
+										  <div class="col-lg-5 single-list-page">
+											<div class="related-properties">
+									
+												<div id="gallery">
+													@foreach ($es->images as $key => $img)
+														<div class="image-constainer">
+															<form method="POST" enctype="multipart/form-data"  action="{{ route('estate.update', $es->id) }}">
+																@csrf
+																@method('PUT')
+																<a href="javascript:void(0);" class="trigger-upload" data-target="image-upload-{{ $img->id }}">
+																	<img src="{{ asset('images/' . $img->image_name) }}" alt="Estate Image" class="image-item" />
+																</a>
+																<input type="file" id="image-upload-{{ $img->id }}" name="image_name_{{ $img->id }}" style="display:none;"/>
+																<label for="image-upload-{{ $img->id }}" class="update-button"
+																	   style="display: block;
+																			  text-align: top;
+																			  padding: 5px 10px;
+																			  background-color: #30caa0;
+																			  color: #fff;
+																			  cursor: pointer;">Update Image</label>
+															</form>
+														</div>
+													@endforeach
+												</div>
+
 										<div class="d-flex justify-content-center">
-											<button type="submit" class="btn btn-primary">Add</button>
+											<button type="submit" class="btn btn-primary" >Update</button>
 										</div>
 				
 									</form>
+
+								
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- row closed -->
-	@endsection
+	
 	<!-- Breadcrumb -->
-	<div class="site-breadcrumb">
-		<div class="container">
-			<a href=""><i class="fa fa-home"></i>Home</a>
-			<span><i class="fa fa-angle-right"></i>FOR SALE</span>
-		</div>
-	</div>
+	
 
 	<!-- Page -->
 	
@@ -365,6 +416,37 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</div>
 	</footer>
 	<!-- Footer section end -->
+	
+{{-- 
+    <script>
+	$(document).on('click', '.trigger-upload', function() {
+		var targetId = $(this).data('target');
+		$('#' + targetId).click();
+	});
+	</script>  --}}
+
+	<script>
+	$(document).on('click', '.trigger-upload', function() {
+		var targetId = $(this).data('target');
+		$('#' + targetId).trigger('click');
+	  });
+	  </script>
+
+{{-- 
+<script>
+	$(document).ready(function() {
+		$('.update-button').click(function() {
+		  $(this).prev('input[type="file"]').click();
+		});
+		
+		// Show the selected image file name
+		$('input[type="file"]').change(function() {
+		  var fileName = $(this).val().split('\\').pop();
+		  $(this).next('label').text(fileName);
+		});
+	  });
+	  
+	</script> --}}
 
                                         
 	<!--====== Javascripts & Jquery ======-->
@@ -379,6 +461,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<!-- load for map -->
 	<script src="{{asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyB0YyDTa0qqOjIerob2VTIwo_XVMhrruxo')}}"></script>
 	<script src="{{asset('js/map-2.js')}}"></script>
+	<button onclick="openPopup()">Edit</button>
+  
 
 </body>
 </html>

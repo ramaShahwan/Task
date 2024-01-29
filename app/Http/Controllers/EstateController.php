@@ -5,13 +5,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Estate;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Filesystem\FilesystemAdapter;
-use File;
+//use File;
 use Illuminate\Filesystem\FilesystemManager;
 use League\Flysystem\Filesystem;
 use Illuminate\Support\Str;
- 
+use Illuminate\Support\Facades\File; 
 
 
 class EstateController extends Controller
@@ -20,33 +21,32 @@ class EstateController extends Controller
      * Display a listing of the resource.
      */
 
-     public function uploadMultiple(Request $request): array
-     {
-         $files = $request->file('images');
-         $arrayOfImages = array();
+    //  public function uploadMultiple(Request $request): array
+    //  {
+    //      $files = $request->file('images');
+    //      $arrayOfImages = array();
      
-         for ($i = 0; $i < count($files); $i++) {
-             $filename = $request->get('slug') . $i . '.' . $files[$i]->getClientOriginalExtension();
+    //      for ($i = 0; $i < count($files); $i++) {
+    //          $filename = $request->get('slug') . $i . '.' . $files[$i]->getClientOriginalExtension();
      
-             Storage::disk('publicDirectory')->putFileAs(
-                 'public/images/',
-                 $files[$i],
-                 $filename
-             );
+    //          Storage::disk('publicDirectory')->putFileAs(
+    //              'public/images/',
+    //              $files[$i],
+    //              $filename
+    //          );
      
-             array_push($arrayOfImages, 'public/images/' . $filename);
-         }
+    //          array_push($arrayOfImages, 'public/images/' . $filename);
+    //      }
      
-         return $arrayOfImages;
-     }
+    //      return $arrayOfImages;
+    //  }
 
-    //$files[$i]->getClientOriginalName(). '.' . 
+    
     public function index()
     { 
-    //     $data= Estate::get('images');
-    //    $img=json_decode( $data);
-        $estate = Estate::all();
-       // $imgs = Estate::get('images');
+        //$estate = Estate::all()->latest()->first() ;
+       // $estate = Estate::latest('updated_at')->first()->all();
+       $estate = Estate::orderBy('updated_at','desc')->get();
      return view('components.index',compact('estate'));
     }
 
@@ -74,18 +74,11 @@ class EstateController extends Controller
             'room_number' => 'required|max:2',
             'bath_number' => 'required|max:2',
             'description' => 'required|max:255',
-            'images' =>'required',
+            'image_name' =>'required',
             'slug' => 'required|max:255',
         ]);
 
-        $image_array = [];
-        if($request->hasFile('images'))
-        {
-        $image_array = $this->uploadMultiple($request);
-        }
-        $image_paths = implode(',',$image_array);
-
-     Estate::create([
+        $estate= Estate::create([
     'Address'=>$request->Address,
     'Contact_phone'=>$request->Contact_phone,
     'outlook' => $request->outlook,
@@ -102,44 +95,28 @@ class EstateController extends Controller
     'TV_cable' => $request->TV_cable == '1' ? 1 : 0,
     'internet' => $request->internet == '1' ? 1 : 0,
     'central_heating' => $request->central_heating == '1' ? 1 : 0,
-    'images'=>$image_paths,
-   'slug' => Str::slug( $request->slug)
+   'slug' => Str::slug( $request->slug),
+   
 ]);
- 
-// $image_array = array();
-// if($request->file('images'))
-// {
-// if(count($request->file('images'))>0)
-//   {
-//     $image_array=$this->uploadMultiple($request);
-//   }
-//  }
-// // return $image_array;
-// foreach($image_array as$img)
-// {
-//     $image = new Estate;
-//     $image->images=$img;
-//     $image->save();
-// }
-
 
 //for images from another table(one to many)
-// if($request->hasfile('image_name'))
-// {
-//    foreach($request->file('image_name') as $image)
-//    {
-//        $name=$image->getClientOriginalName();
-//        $image->move(public_path().'/public/images/', $name);  
-//        Image::create([
-//                     'estate_id'=>Estate::latest()->first()->id,
-//                     'image_name' => $name,
-//                     'image_url' =>$image,
-//                 ]);
-//    }
-// }
+if($request->hasfile('image_name'))
+{
+    foreach($request->file('image_name') as $image)
+    {
+        $name = $image->getClientOriginalName(); 
+        $image->move(public_path('images'), $name);
+       //  $e=  Estate::latest()->first()->id;
+            Image::create([
+            //'estate_id' => $e,
+           'estate_id'=>$estate->id,
+            'image_name' => $name,
+        ]);
+    }
+}
 
     session()->flash('Add', 'Added successfully.');
-    return back(); 
+    return redirect()->route('estate');
 }
   
 
@@ -154,18 +131,61 @@ class EstateController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
        $es = Estate::findOrFail($id);
-       return view('estate.edit',compact('es'));
+       return view('components.edit',compact('es'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+     public function update(Request $request, $id)
+     {
+         $es = Estate::findOrFail($id);
+         $es->update([
+             'Address' => $request->Address,
+             'Contact_phone' => $request->Contact_phone,
+             'outlook' => $request->outlook,
+             'direction' => $request->direction,
+             'floor' => $request->floor,
+             'ownership' => $request->ownership,
+             'room_number' => $request->room_number,
+             'bath_number' => $request->bath_number,
+             'description' => $request->description,
+             'price' => $request->price,
+             'parking' => $request->parking == '1' ? 1 : 0,
+             'place_for_barbecue' => $request->place_for_barbecue == '1' ? 1 : 0,
+             'left' => $request->left == '1' ? 1 : 0,
+             'TV_cable' => $request->TV_cable == '1' ? 1 : 0,
+             'internet' => $request->internet == '1' ? 1 : 0,
+             'central_heating' => $request->central_heating == '1' ? 1 : 0,
+             'slug' => Str::slug($request->slug)
+         ]);
+     
+         foreach ($es->images as $image) {
+             if ($request->hasFile('image_name_' . $image->id)) {
+                 // Delete the old image from server
+                 File::delete(public_path('images/' . $image->image_name));
+     
+                 // Upload new image
+                 $imageName = $request->file('image_name_' . $image->id)->getClientOriginalName();
+                 $request->file('image_name_' . $image->id)->move(public_path('images'), $imageName);
+     
+                 // Update the image record with the new image name
+                 $image->update(['image_name' => $imageName]);
+             }
+         }
+     
+         return redirect()->route('estate');
+     }
+     
+
+
+    public function update2(Request $request,  $id)
     {
-       $es = Estate::finndOrFail($id);
+       $es = Estate::findOrFail($id);
        $es->update([
         'Address'=>$request->Address,
         'Contact_phone'=>$request->Contact_phone,
@@ -183,11 +203,71 @@ class EstateController extends Controller
         'TV_cable' => $request->TV_cable == '1' ? 1 : 0,
         'internet' => $request->internet == '1' ? 1 : 0,
         'central_heating' => $request->central_heating == '1' ? 1 : 0,
-        'images'=>$request->images,
-       'slug' => Str::slug( $request->slug)
+       // 'image_name'=>$request->image_name,
+       'slug' => Str::slug( $request->slug) 
        ]);
-       return redirect()->route('estate');
+
+        if ($request->hasFile('image_name')) {
+            // Delete old images
+            foreach ($es->images as $image) {                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                // Delete the file from server
+                File::delete(public_path('images/' . $image->image_name));
+                // Delete the record from database
+                $image->delete();
+            }        
+
+        // Upload new image
+        $imageName = $request->file('image_name')->getClientOriginalName();
+        $request->file('image_name')->move(public_path('images'), $imageName);
+        $es->images()->create(['image_name' => $imageName]);
     }
+
+    return redirect()->route('estate');
+}
+
+
+// public function updateImage(Request $request, $id, $imageId)
+// {
+//     $es = Estate::findOrFail($id);
+//     $image = Image::findOrFail($imageId);
+    
+//     if ($request->hasFile('image_name')) {
+//         // Delete the old image file from server
+//         File::delete(public_path('images/' . $image->image_name));
+        
+//         // Upload new image
+//         $imageName = $request->file('image_name')->getClientOriginalName();
+//         $request->file('image_name')->move(public_path('images'), $imageName);
+        
+//         // Update the image record in the database
+//         $image->update(['image_name' => $imageName]);
+//     }
+
+//     return redirect()->route('estate.edit', $id);
+// }
+public function updateImage(Request $request, $id)
+{
+    $es = Estate::findOrFail($id);
+    
+    foreach ($request->image_id as $key => $imageId) {
+        $image = Image::findOrFail($imageId);
+        
+        if ($request->hasFile('image_name') && isset($request->image_name[$key])) {
+            // Delete the old image file from server
+            File::delete(public_path('images/' . $image->image_name));
+            
+            // Upload new image
+            $imageName = $request->file('image_name')[$key]->getClientOriginalName();
+            $request->file('image_name')[$key]->move(public_path('images'), $imageName);
+            
+            // Update the image record in the database
+            $image->update(['image_name' => $imageName]);
+        }
+    }
+
+    return redirect()->route('estate.edit', $id);
+}
+
 /*
 */
     /**
@@ -195,13 +275,18 @@ class EstateController extends Controller
      */
     public function destroy( $id)
     {
+        Image::where('estate_id',$id)->delete();
        Estate::findOrFail($id)->delete();
         return redirect()->route('estate');
     }
     public function deleteAll()
     {
-      Estate::clearBootedModels();
+        Image::whereNotNull('estate_id')->delete();
+        Estate::whereNotNull('id')->delete();
+    // Estate::truncate();  
         return redirect()->route('estate');
     }
-   
+
+      
 }
+   

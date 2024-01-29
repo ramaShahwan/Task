@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -269,9 +268,10 @@
 				<input type="text" class="form-control" id="inputName" name="slug" required>
 			</div>
 		</div><br>
+		
 		<div class="row">
-				<label for="images" class= "form-label">Images </label>
-		<input class="form-control" type="file"  multiple accept="images/*" name="images[]" id="images">
+				<label for="image_name" class= "form-label">Images </label>
+		<input class="form-control" type="file"  multiple accept="image_name/*" name="image_name[]" id="image_name">
 	<div aria-describedby="imagesHelp" class="form-text">Select Multiple Images for your house.</div>
 	<div class="gallery" id="gallery">
 			</div>
