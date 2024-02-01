@@ -34,14 +34,6 @@ Route::get('/dashboard', function () {
 
 
 
-// Route::get('/home', function () {
-//     if (auth()->user()->role == 'admin') {
-//         return redirect()->route('home');
-//     } elseif (auth()->user()->role == 'customer') {
-//         return redirect()->route('home');
-//     }
-// })->middleware(['auth', 'verified'])->name('home');
-
 
 if (optional(auth()->user())->role == 'admin') 
 {

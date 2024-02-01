@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Estate;
+use App\Models\User;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -13,41 +14,42 @@ use Illuminate\Filesystem\FilesystemManager;
 use League\Flysystem\Filesystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File; 
-
+use Illuminate\Support\Facades\Auth;
 
 class EstateController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
-    //  public function uploadMultiple(Request $request): array
-    //  {
-    //      $files = $request->file('images');
-    //      $arrayOfImages = array();
-     
-    //      for ($i = 0; $i < count($files); $i++) {
-    //          $filename = $request->get('slug') . $i . '.' . $files[$i]->getClientOriginalExtension();
-     
-    //          Storage::disk('publicDirectory')->putFileAs(
-    //              'public/images/',
-    //              $files[$i],
-    //              $filename
-    //          );
-     
-    //          array_push($arrayOfImages, 'public/images/' . $filename);
-    //      }
-     
-    //      return $arrayOfImages;
-    //  }
-
+  
     
     public function index()
     { 
         //$estate = Estate::all()->latest()->first() ;
        // $estate = Estate::latest('updated_at')->first()->all();
        $estate = Estate::orderBy('updated_at','desc')->get();
-     return view('components.index',compact('estate'));
+     
+    //  if ( auth()->user()->role == 'admin')
+    //     {
+    //         return view('components.index',compact('estate'));
+    //     }
+    //    else if ( auth()->user()->role == 'customer')
+    //     {
+    //         return view('customer.index',compact('estate'));
+    //     }
+    //     else 
+    //     return view('visitor.index',compact('estate'));
+
+    
+    if (optional(auth()->user())->role == 'admin') 
+    {
+        return view('components.index',compact('estate'));
+    }
+     elseif (optional(auth()->user())->role == 'customer')
+      {
+        return view('customer.index',compact('estate'));
+     }
+     else 
+     {
+        return view('visitor.index',compact('estate'));
+    }
     }
 
     /**
@@ -55,8 +57,15 @@ class EstateController extends Controller
      */
     public function create()
     {
-
-     return view('components.create');
+        if ( auth()->user()->role == 'admin')
+        {
+            return view('components.create');
+        }
+       else if ( auth()->user()->role == 'customer')
+        {
+            return view('customer.create');
+        }
+    
     }
 
     /**
@@ -79,6 +88,7 @@ class EstateController extends Controller
         ]);
 
         $estate= Estate::create([
+
     'Address'=>$request->Address,
     'Contact_phone'=>$request->Contact_phone,
     'outlook' => $request->outlook,
@@ -96,6 +106,7 @@ class EstateController extends Controller
     'internet' => $request->internet == '1' ? 1 : 0,
     'central_heating' => $request->central_heating == '1' ? 1 : 0,
    'slug' => Str::slug( $request->slug),
+   'user_id'=>auth()->id()
    
 ]);
 
@@ -116,7 +127,17 @@ if($request->hasfile('image_name'))
 }
 
     session()->flash('Add', 'Added successfully.');
-    return redirect()->route('estate');
+   
+    
+    if ( auth()->user()->role == 'admin')
+    {
+        return redirect()->route('estate');
+    }
+   else if ( auth()->user()->role == 'customer')
+    {
+        return redirect()->route('customer.estate');
+    }
+//return back();
 }
   
 
@@ -134,7 +155,16 @@ if($request->hasfile('image_name'))
     public function edit( $id)
     {
        $es = Estate::findOrFail($id);
-       return view('components.edit',compact('es'));
+
+       if ( auth()->user()->role == 'admin')
+       {
+        return view('components.edit',compact('es'));
+       }
+      else if ( auth()->user()->role == 'customer')
+       {
+        return view('customer.edit',compact('es'));
+       }
+       
     }
 
     /**
@@ -177,74 +207,18 @@ if($request->hasfile('image_name'))
                  $image->update(['image_name' => $imageName]);
              }
          }
-     
-         return redirect()->route('estate');
+         if ( auth()->user()->role == 'admin')
+         {
+            return redirect()->route('estate');
+         }
+        else if ( auth()->user()->role == 'customer')
+         {
+            return redirect()->route('customer.estate');
+         }
+        
      }
      
 
-
-    public function update2(Request $request,  $id)
-    {
-       $es = Estate::findOrFail($id);
-       $es->update([
-        'Address'=>$request->Address,
-        'Contact_phone'=>$request->Contact_phone,
-        'outlook' => $request->outlook,
-        'direction' => $request->direction,
-        'floor' => $request->floor,
-        'ownership' => $request->ownership,
-        'room_number' => $request->room_number,
-        'bath_number' => $request->bath_number,
-        'description'=>$request->description,
-        'price' => $request->price,
-        'parking' => $request->parking == '1' ? 1 : 0,
-        'place_for_barbecue' => $request->place_for_barbecue == '1' ? 1 : 0,
-        'left' => $request->left == '1' ? 1 : 0,
-        'TV_cable' => $request->TV_cable == '1' ? 1 : 0,
-        'internet' => $request->internet == '1' ? 1 : 0,
-        'central_heating' => $request->central_heating == '1' ? 1 : 0,
-       // 'image_name'=>$request->image_name,
-       'slug' => Str::slug( $request->slug) 
-       ]);
-
-        if ($request->hasFile('image_name')) {
-            // Delete old images
-            foreach ($es->images as $image) {                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-                // Delete the file from server
-                File::delete(public_path('images/' . $image->image_name));
-                // Delete the record from database
-                $image->delete();
-            }        
-
-        // Upload new image
-        $imageName = $request->file('image_name')->getClientOriginalName();
-        $request->file('image_name')->move(public_path('images'), $imageName);
-        $es->images()->create(['image_name' => $imageName]);
-    }
-
-    return redirect()->route('estate');
-}
-
-
-// public function updateImage(Request $request, $id, $imageId)
-// {
-//     $es = Estate::findOrFail($id);
-//     $image = Image::findOrFail($imageId);
-    
-//     if ($request->hasFile('image_name')) {
-//         // Delete the old image file from server
-//         File::delete(public_path('images/' . $image->image_name));
-        
-//         // Upload new image
-//         $imageName = $request->file('image_name')->getClientOriginalName();
-//         $request->file('image_name')->move(public_path('images'), $imageName);
-        
-//         // Update the image record in the database
-//         $image->update(['image_name' => $imageName]);
-//     }
-
-//     return redirect()->route('estate.edit', $id);
-// }
 public function updateImage(Request $request, $id)
 {
     $es = Estate::findOrFail($id);
@@ -277,8 +251,16 @@ public function updateImage(Request $request, $id)
     {
         Image::where('estate_id',$id)->delete();
        Estate::findOrFail($id)->delete();
-        return redirect()->route('estate');
+       if ( auth()->user()->role == 'admin')
+       {
+          return redirect()->route('estate');
+       }
+      else if ( auth()->user()->role == 'customer')
+       {
+          return redirect()->route('customer.estate');
+       }
     }
+
     public function deleteAll()
     {
         Image::whereNotNull('estate_id')->delete();
@@ -287,6 +269,10 @@ public function updateImage(Request $request, $id)
         return redirect()->route('estate');
     }
 
-      
+    // public function logout()
+    // {
+    //     Auth::logout();
+    //     return redirect('/login');
+    // }
 }
    

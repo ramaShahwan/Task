@@ -57,7 +57,6 @@
 							<a href=""><i class="fa fa-pinterest"></i></a>
 							<a href=""><i class="fa fa-linkedin"></i></a>
 						</div>
-
 						@if (auth()->user())
         
 						<div class="user-panel">
@@ -75,12 +74,6 @@
 							<a href="{{route('login')}}"><i class="fa fa-sign-in"></i> Login</a>
 						</div> 
 						@endif
-
-
-						{{-- <div class="user-panel">
-							<a href="{{route('register')}}"><i class="fa fa-user-circle-o"></i> Register</a>
-							<a href="{{route('login')}}"><i class="fa fa-sign-in"></i> Login</a>
-						</div>  --}}
 					</div>
 				</div>
 			</div>
@@ -118,14 +111,9 @@
 			<span><i class="fa fa-angle-right"></i>FOR SALE</span>
 			<span></span>
 			
-		   
-			<form action="{{ route('estate.deleteAll') }}" method="Get" class="top-right">
-			     @csrf
-				 @method('DELETE')
-				 <a href="{{route('estate.create')}}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
+				 <a href="{{route('customerEestate.create')}}" class="right-btn" style="float: right; 
+				  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Add new</a>
 			
-			<button style="float: right; margin-right:5px;border-radius: 3px; border:none ; padding:10px; background-color:#30caa0; color:white">Delete All</button>
-			</form>
 		</div>
 	</div>
 	
@@ -163,6 +151,7 @@
 								<p><i class="fa fa-home"></i> {{ $es->direction }}</p>
 								<p><i class="fa fa-user"></i> {{ $es->Contact_phone }}</p>
 								<p><i class="fa fa-bed"></i> {{ $es->room_number }} room</p>
+								
 							</div>
 							<div class="col-md-4 col-sm-6">
 								<p><i class="fa fa-bars"></i> {{ $es->floor }} floor</p>
@@ -173,7 +162,7 @@
 								<p><i class="fa fa-bath"></i>   {{ $es->bath_number }} bathroom</p>
 								<p><i class="fa fa-trophy"></i>  {{ $es->ownership }}</p>
 								<p><i class="fa fa-user"></i>Added By: {{ App\Models\User::find($es->user_id)->name }} </p>
-
+							
 							</div>
 						</div>
 						<h3 class="sl-sp-title">Description</h3>
@@ -205,22 +194,17 @@
 
 								
 							</div>
-							{{-- <div class="col-md-4">
-								<p><i class="fa fa-check-circle-o"></i> City views</p>
-								<p><i class="fa fa-check-circle-o"></i> Internet</p>
-								<p><i class="fa fa-check-circle-o"></i> Electric Range</p>
-							</div> --}}
 						</div>
 						
-						
-			<form action="{{ route('estate.delete', $es->id) }}" method="Get" class="top-right">
+						@if ($es->user_id == auth()->id() )
+			<form action="{{ route('customerEstate.delete', $es->id) }}" method="Get" class="top-right">
 				@csrf
 				@method('DELETE')
-				<a href="{{route('estate.edit', $es->id)}}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Edit</a>
+				<a href="{{route('customerEstate.edit', $es->id)}}" class="right-btn" style="float: right;  border-radius: 3px; padding:10px; background-color:#30caa0; color:white">Edit</a>
 		   
 		   <button style="float: right; margin-right:5px;border-radius: 3px; border:none ; padding:10px; background-color:#30caa0; color:white">Delete </button>
 		   </form>
-				
+		   @endif
 						<!-- sidebar -->
 					</div>
 				</div>
@@ -231,32 +215,6 @@
 		@endforeach
 	</section>
 	<!-- Page end -->
-
-
-	{{-- <!-- Clients section -->
-	<div class="clients-section">
-		<div class="container">
-			<div class="clients-slider owl-carousel">
-				<a href="#">
-					<img src="{{asset('img/partner/1.png')}}" alt="">
-				</a>
-				<a href="#">
-					<img src="{{asset('img/partner/2.png')}}" alt="">
-				</a>
-				<a href="#">
-					<img src="{{asset('img/partner/3.png')}}" alt="">
-				</a>
-				<a href="#">
-					<img src="{{asset('img/partner/4.png')}}" alt="">
-				</a>
-				<a href="#">
-					<img src="{{asset('img/partner/5.png')}}" alt="">
-				</a>
-			</div>
-		</div>
-	</div>
-	<!-- Clients section end --> --}}
-
 
 	<!-- Footer section -->
 	<footer class="footer-section set-bg" data-setbg="{{asset('img/footer-bg.jpg')}}">
