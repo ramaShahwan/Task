@@ -6,16 +6,6 @@ use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
@@ -92,7 +82,4 @@ require __DIR__.'/auth.php';
 
 
 //Route::resource('estate', EstateController::class);
-//For Image
-// Route::get('image-upload', [ ImageUploadController::class, 'imageUpload' ])->name('image.upload');
-// Route::post('image-upload', [ ImageUploadController::class, 'imageUploadPost' ])->name('image.upload.post');
 

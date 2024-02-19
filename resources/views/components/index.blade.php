@@ -59,7 +59,7 @@
 						</div>
 
 						@if (auth()->user())
-        
+						
 						<div class="user-panel">
 							<a href="{{ route('profile.edit') }}"><i class="fa fa-cog"></i> Profile</a>
 							<form  method="POST" action="{{ route('logout') }}">
@@ -76,11 +76,6 @@
 						</div> 
 						@endif
 
-
-						{{-- <div class="user-panel">
-							<a href="{{route('register')}}"><i class="fa fa-user-circle-o"></i> Register</a>
-							<a href="{{route('login')}}"><i class="fa fa-sign-in"></i> Login</a>
-						</div>  --}}
 					</div>
 				</div>
 			</div>
